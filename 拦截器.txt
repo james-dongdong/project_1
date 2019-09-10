@@ -1,0 +1,19 @@
+1.创建拦截器,实现HandlerInterceptor接口,重写preHandle方法,方法中写拦截条件,方法返回值为boolean类型,如果为true则放行，为false则拦截。
+实例:	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		HttpSession session=request.getSession();
+		if(session.getAttribute("uid")==null){
+			response.sendRedirect("/web/login.html");
+			return false;
+		}
+		return true;
+	}
+
+2.创建拦截器配置类实现WebMvcConfigurer接口,重写addInterceptors方法，添加黑名单和白名单
+		registry.addInterceptor(interceptor)
+		.addPathPatterns("/**")
+		.excludePathPatterns(paths);
+paths为添加的白名单集合.
+
+	
